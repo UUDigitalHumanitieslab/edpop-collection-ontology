@@ -1,0 +1,199 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix oa:     <http://www.w3.org/ns/oa#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix as: <https://www.w3.org/ns/activitystreams#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+@prefix edpopcol:  <https://dhstatic.hum.uu.nl/edpop-collection/0.1.0-SNAPSHOT/>  .
+
+# This file contains an example of a graph built on the  EDPOP collection
+# ontology. It is purely designed for illustration and development. Many
+# elements here are also used as examples in the documentation.
+
+# USERS
+
+_:user1 a edpopcol:User;
+        as:name "John Doe";
+        edpopcol:affiliation "Some University"@en;
+        as:url [ as:name "personal website" ; as:href "http://www.johndoe.org" ] .
+
+# APPLICATIONS
+
+_:app   a as:Application ;
+        as:name "example application" ;
+        as:url [ as:href "http://www.example-application.org" ] .
+
+# COLLECTIONS
+
+_:col1  a edpopcol:Collection ;
+        as:attributedTo _:user1 ;
+        as:name "Characters in Hamlet" .
+
+# TOY DATA
+
+_:Hamlet        rdfs:member _:col1 .
+_:Claudius      rdfs:member _:col1 .
+_:Gertrude      rdfs:member _:col1 .
+_:Horatio       rdfs:member _:col1 .
+_:Ophelia       rdfs:member _:col1 .
+_:Roosencrantz  rdfs:member _:col1 .
+_:Guildenstern  rdfs:member _:col1 .
+_:Ghost         rdfs:member _:col1 .
+
+# Some initial propositions about the data.
+
+_:Hamlet _:childOf _:Gertrude , _:HamletSenior .
+_:Claudius _:siblingOf _:HamletSenior .
+_:Gertrude _:spouseOf _:Claudius .
+_:Hamlet _:loves _:Ophelia .
+_:Hamlet _:trusts _:Roosencrantz , _:Guildenstern , _:Horatio .
+_:Hamlet _:location _:Elsinore .
+_:Elsinore _:country _:Denmark .
+
+# ANNOTATIONS
+
+# A comment without an explicit suggestion
+_:a1  a edpopcol:Annotation ;
+    dcterms:creator _:user1 ;
+    as:published  "2023-01-01:00:00-00:00" ;
+    as:generator _:app ;
+    oa:motivatedBy oa:commenting ;
+    oa:hasTarget [
+        oa:hasSource _:Hamlet ;
+        oa:hasSelector [
+            edpopcol:property _:loves ;
+            edpopcol:object _:Ophelia
+        ]
+    ] ;
+    oa:hasBody [
+        edpopcol:comment [
+            a oa:TextualBody ;
+            rdf:value "Does he? I'm not sure..." ;
+            dc:language "en" ;
+            dc:format "text/html" ;
+        ]
+    ] .
+
+# Note of this annotation being created
+[]  a as:Create ;
+    as:actor _:user1 ;
+    as:object _:a1 ;
+    as:context _:col1 .
+
+# A correction to add a triple
+_:a2  a edpopcol:Annotation ;
+    dcterms:creator _:user1 ;
+    as:published  "2023-01-01:00:01-00:00" ;
+    as:generator _:app ;
+    as:context _:col1 ;
+    oa:motivatedBy oa:editing ;
+    oa:hasTarget [
+        oa:hasSource _:Claudius
+    ] ;
+    oa:hasBody [
+        edpopcol:suggestsAddition [
+            edpopcol:property _:kingOf ;
+            edpopcol:object _:Denmark
+        ] ;
+        edpopcol:comment [
+            a oa:TextualBody ;
+            rdf:value "Claudius is the king of Denmark now, this should be added to the graph" ;
+            dc:language "en" ;
+            dc:format "text/html" ;
+        ]
+    ] .
+
+[]  a as:Create ;
+    as:actor _:user1 ;
+    as:object _:a2 ;
+    as:context _:col1 .
+
+# A correction to remove two triples
+_:a3  a edpopcol:Annotation ;
+    dcterms:creator _:user1 ;
+    as:published  "2023-01-01:00:02-00:00" ;
+    as:generator _:app ;
+    as:context _:col1 ;
+    oa:motivatedBy oa:editing ;
+    oa:hasTarget [
+        oa:hasSource _:Hamlet
+    ] ;
+    oa:hasBody [
+        edpopcol:suggestsRemoval [
+            edpopcol:property _:trusts ;
+            edpopcol:object _:Roosencrantz
+        ] ;
+        edpopcol:suggestsRemoval [
+            edpopcol:property _:trusts ;
+            edpopcol:object _:Guildenstern
+        ] ;
+        edpopcol:comment [
+            a oa:TextualBody ;
+            rdf:value "This is no longer accurate" ;
+            dc:language "en" ;
+            dc:format "text/html" ;
+        ]
+    ] .
+
+[]  a as:Create ;
+    as:actor _:user1 ;
+    as:object _:a3 ;
+    as:context _:col1 .
+
+# A correction to replace the object of a triple
+_:a4  a edpopcol:Annotation ;
+    dcterms:creator _:user1 ;
+    as:published  "2023-01-01:00:03-00:00" ;
+    as:generator _:app ;
+    as:context _:col1 ;
+    oa:motivatedBy oa:editing ;
+    oa:hasTarget [
+        oa:hasSource _:Hamlet
+    ] ;
+    oa:hasBody [
+        edpopcol:suggestsRemoval [
+            edpopcol:property _:location ;
+            edpopcol:object _:Elsinore
+        ] ;
+        edpopcol:suggestsAddition [
+            edpopcol:property _:location ;
+            edpopcol:object _:England
+        ] ;
+        edpopcol:comment [
+            a oa:TextualBody ;
+            rdf:value "Hamlet has left for England!" ;
+            dc:language "en" ;
+            dc:format "text/html"
+        ] ;
+    ] .
+
+[]  a as:Create ;
+    as:actor _:user1 ;
+    as:object _:a4 ;
+    as:context _:col1 .
+
+# A suggestion that two resource are the same.
+_:a5  a edpopcol:Annotation ;
+    dcterms:creator _:user1 ;
+    as:published "2023-01-01:00:05-00:00" ;
+    as:generator _:app ;
+    as:context _:col1 ;
+    oa:motivatedBy oa:identifying ;
+    oa:hasTarget [
+        oa:hasSource _:Ghost
+    ] ;
+    oa:hasBody [
+        edpopcol:suggestsAddition [
+            edpopcol:property owl:sameAs ;
+            edpopcol:object _:HamletSenior
+        ]
+    ] .
+
+[]  a as:Create ;
+    as:actor _:user1 ;
+    as:object _:a4 ;
+    as:context _:col1 .
