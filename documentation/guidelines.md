@@ -251,36 +251,9 @@ Annotations can provide structured suggestions; whether these suggestions are ac
 
 #### Accepting corrections
 
-A sensible default in application can be:
-- a collection owner can change which corrections are accepted as canonical in their collection
-- automatic corrections are canonical by default
-- corrections by the collection creator are canonical by default
-- corrections by other users are not canonical by default
+It is useful to express that an annotation is regarded as canonical in a particular context. For instance, when a researcher makes corrections within their own collections, those may be regarded as canonical in that context. A reasoner could then use this status to create a unified, corrected graph.
 
-This is deliberately formulated with the idea that multiple annotations may be canonical. Ideally, a reasoner is able to take the original resource, together with all accepted annotations in the current context, and conclude the canonical value of a property.
-
-In case of multiple annotations, we could distinguish between several cases:
-
-*Multiple corrections complement one another without contradiction.* For example, we may have received the following two corrections:
-
-- Add `_:Hamlet _:friend _:Roosencrantz`
-- Add `_:Hamlet _:friend _:Guildenstern`
-
-*Multiple corrections contradict one another in a clear sequence.* These are cases where corrections can function as a clear "editing history". For example, we may have receive the following corrections in chronological order:
-
-- Add `_:Hamlet _:loves _:Ophelia`
-- Remove `_:Hamlet _:loves _:Ophelia`, add `_:Hamlet _:loves _:Hamlet`
-- Remove `_:Hamlet _:loves _:Hamlet`, add `_:Hamlet _:loves _:Ophelia`
-
-Thus, the canonical value is that Hamlet loves Ophelia.
-
-*Multiple corrections contradict one another and cannot be resolved.* For example, we may consider the following sequence of corrections contradictory:
-
-- Add `_:Hamlet _:loves _:Ophelia`
-- Remove `_:Hamlet _:loves _:Ophelia`, add `_:Hamlet _:loves _:Hamlet`
-- Remove `_:Hamlet _:loves _:Ophelia`, add `_:Hamlet _:loves _:Horatio`
-
-The distinction between these three cases is nontrivial. Human actors may not agree on how this third example should be resolved.
+At the moment, there is no implementation for this within the vocabulary, due its complexity. Canonical status raises questions about moderation, and creating a unified graph is a non-trivial task, since annotations can contradict each other. 
 
 ### Suggestions vs. modifications
 
