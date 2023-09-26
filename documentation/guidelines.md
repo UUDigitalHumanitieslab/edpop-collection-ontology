@@ -33,9 +33,9 @@ A user may have no informative properties at all. This allows users to make pseu
 
 An application node represents a software application that makes contributions to the graph. These can be periodic updates or data migrations, which can be realised as annotations or direct changes.
 
-### Attribution
+Any user-created resource can also have an application as its `as:generator` - this just states that the application was used to make the contribution. That information can be somewhat useful when the graph is shared, as applications often restrict the created resource.
 
-Resources can be attributed to users or applications, but not both. However, it is not excluded that a resource may be attributed to multiple users (or multiple applications).
+Automatically generated resources, e.g. automatic annotations, can be realised as annotations not attributed to users; such annotions should have an `as:generator` to describe their provenance.
 
 ## Collections
 
