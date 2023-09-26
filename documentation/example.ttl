@@ -8,7 +8,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 
-@prefix edpopcol:  <https://dhstatic.hum.uu.nl/edpop-collection/0.1.0-SNAPSHOT/>  .
+@prefix edpopcol:  <https://dhstatic.hum.uu.nl/edpop-collection/0.1.0-SNAPSHOT#>  .
 
 # This file contains an example of a graph built on the  EDPOP collection
 # ontology. It is purely designed for illustration and development. Many
