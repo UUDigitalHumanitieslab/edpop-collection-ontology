@@ -10,7 +10,7 @@ This repository contains:
 
 - [ontology.ttl](/ontology.ttl): A formal, machine-readable description of the ontology
 - [guidelines](/documentation/guidelines.md): A lengthy description of how the ontology can be used in a research environment.
-- [example.tt](/documentation/example.ttl): An small graph that implements the ontology.
+- [example.ttl](/documentation/example.ttl): An small graph that implements the ontology.
 - [test_validate.py](/tests/test_validate.py): A python test that verifies the turtle files in the repository are valid.
 
 ### Unit tests

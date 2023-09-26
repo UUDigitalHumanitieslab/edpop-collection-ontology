@@ -27,7 +27,7 @@ In an application, it makes sense to let user nodes correspond one-to-one with u
 
 User nodes can have properties that describes the individual and their work. These should be defined by user themself.
 
-A user may have no informative properties at all. This allows users to make pseudo-nonymous contributions, where there is still a clear record of all contributions by that user.
+A user may have no informative properties at all. This allows users to make pseudonymous contributions, where there is still a clear record of all contributions by that user.
 
 ### Applications
 
@@ -253,7 +253,7 @@ Annotations can provide structured suggestions; whether these suggestions are ac
 
 It is useful to express that an annotation is regarded as canonical in a particular context. For instance, when a researcher makes corrections within their own collections, those may be regarded as canonical in that context. A reasoner could then use this status to create a unified, corrected graph.
 
-At the moment, there is no implementation for this within the vocabulary, due its complexity. Canonical status raises questions about moderation, and creating a unified graph is a non-trivial task, since annotations can contradict each other. 
+At the moment, there is no implementation for this within the vocabulary, due to its complexity. Canonical status raises questions about moderation, and creating a unified graph is a non-trivial task, since annotations can contradict each other. 
 
 ### Suggestions vs. modifications
 
@@ -290,7 +290,7 @@ It is sometimes useful to make context-independent annotations that are always r
 
 ### Replying to annotations
 
-We often want to express that an annotations is reacting to some other annotation. 
+We often want to express that an annotation is reacting to some other annotation. 
 
 In general, the recommendation is that this is done by having multiple annotations on the same resource, rather than by chaining annotations, with each annotations having another annotation as subject. This reduces the complexity of querying relevant annotations or reasoning about suggestions.
 
