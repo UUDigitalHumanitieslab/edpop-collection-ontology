@@ -106,7 +106,7 @@ edpopcol:Annotation edpopcol:suggestedProperty  oa:hasTarget ,
 
 # subset of oa:Motivation that is implemented in EDPOP.
 # May be expanded in the future.
-_:ImplementedMotivation owl:oneOf (
+edpopcol:ImplementedMotivation owl:oneOf (
     oa:commenting
     oa:editing
     oa:identifying
@@ -116,7 +116,7 @@ _:ImplementedMotivation owl:oneOf (
 edpopcol:Annotation rdfs:subClassOf [
     a owl:Restriction ;
     owl:onProperty oa:motivatedBy ;
-    owl:allValuesFrom _:ImplementedMotivation
+    owl:allValuesFrom edpocol:ImplementedMotivation
 ] .
 
 # The context of an annotation is always a project
