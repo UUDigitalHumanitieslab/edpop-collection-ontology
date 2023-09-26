@@ -39,7 +39,7 @@ as:Link edpopcol:suggestedProperty  as:name , as:href .
 
 # Organisation (e.g. university, library, company...)
 edpopcol:memberOf   a rdf:Property ;
-                    owl:inverseOf foaf:member ;
+                    rdfs:subPropertyOf [ owl:inverseOf foaf:member ] ; # one-way implication because edpopcol:memberOf is more restricted
                     rdfs:label "member of"@en ;
                     rdfs:domain edpopcol:User ;
                     rdfs:range as:Organization ;
