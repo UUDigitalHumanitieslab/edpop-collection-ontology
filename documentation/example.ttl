@@ -21,8 +21,12 @@
 
 _:user1 a edpopcol:User;
         as:name "John Doe";
-        edpopcol:affiliation "Some University"@en;
+        edpopcol:memberOf _:org ;
         as:url [ as:name "personal website" ; as:href "http://www.johndoe.org" ] .
+
+_:org   a as:Organization ;
+        as:name "University of Examples" ;
+        as:url "http://www.university-of-examples.org" .
 
 # APPLICATIONS
 

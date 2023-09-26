@@ -6,6 +6,7 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix as: <https://www.w3.org/ns/activitystreams#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
 @prefix edpopcol:  <https://dhstatic.hum.uu.nl/edpop-collection/0.1.0-SNAPSHOT#>  .
 
@@ -31,17 +32,18 @@ edpopcol:User a rdfs:Class ;
 # Properties that users can fill in
 edpopcol:User edpopcol:suggestedProperty    as:name ,
                                             as:url ,
-                                            edpopcol:affiliation .
+                                            edpopcol:memberOf .
 
 as:Link edpopcol:suggestedProperty  as:name , as:href .
 
 
-# Affiliation (e.g. university, library...)
-edpopcol:affiliation a rdf:Property ;
-                     rdfs:label "affiliation"@en ;
-                     rdfs:domain edpopcol:User ;
-                     rdfs:range as:Organization ;
-                     rdfs:comment "An institution a person is affiliated with"@en .
+# Organisation (e.g. university, library, company...)
+edpopcol:memberOf   a rdf:Property ;
+                    owl:inverseOf foaf:member ;
+                    rdfs:label "member of"@en ;
+                    rdfs:domain edpopcol:User ;
+                    rdfs:range as:Organization ;
+                    rdfs:comment "An organisation a user is a member of"@en .
 
 as:Organization edpopcol:suggestedProperty as:name , as:url .
 
