@@ -115,13 +115,13 @@ edpopcol:Predicate  a rdfs:Class ;
                     rdfs:comment "A description of a predicate"@en.
 
 edpopcol:property   a rdf:Property ;
-                    rdfs:domain edpopcol:PredicateSuggestion ;
+                    rdfs:domain edpopcol:Predicate ;
                     rdfs:range rdf:Property ;
                     rdfs:label "property"@en ;
                     rdfs:comment "The property of the predicate"@en .
 
 edpopcol:object     a rdf:Property ;
-                    rdfs:domain edpopcol:PredicateSuggestion ;
+                    rdfs:domain edpopcol:Predicate ;
                     rdfs:label "object"@en ;
                     rdfs:comment "The object of the predicate"@en .
 
