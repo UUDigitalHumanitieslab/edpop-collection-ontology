@@ -1,0 +1,178 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+
+@prefix oa:     <http://www.w3.org/ns/oa#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix as: <https://www.w3.org/ns/activitystreams#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+@prefix edpopcol:  <https://dhstatic.hum.uu.nl/edpop-collection/0.1.0-SNAPSHOT#>  .
+
+edpopcol:   a owl:Ontology ;
+            owl:imports as: ;
+            owl:imports oa: .
+
+edpopcol:suggestedProperty  a rdf:Property ;
+                            rdfs:range rdf:Property ;
+                            rdfs:label "suggested property"@en ;
+                            rdfs:comment "Suggested property for this resource - this is not a strict requirement but may be used as an interface hint"@en .
+
+# USERS
+
+# EDPOP users are represented in the graph as the creators of collections and
+# annotations. Their representation in the graph functions as their "public
+# profile": this information can be displayed to show attribution.
+
+edpopcol:User a rdfs:Class ;
+              rdfs:subClassOf as:Person ;
+              rdfs:label "User"@en .
+
+# Properties that users can fill in
+edpopcol:User edpopcol:suggestedProperty    as:name ,
+                                            as:url ,
+                                            edpopcol:memberOf .
+
+as:Link edpopcol:suggestedProperty  as:name , as:href .
+
+
+# Organisation (e.g. university, library, company...)
+edpopcol:memberOf   a rdf:Property ;
+                    rdfs:subPropertyOf [ owl:inverseOf foaf:member ] ; # one-way implication because edpopcol:memberOf is more restricted
+                    rdfs:label "member of"@en ;
+                    rdfs:domain edpopcol:User ;
+                    rdfs:range as:Organization ;
+                    rdfs:comment "An organisation a user is a member of"@en .
+
+as:Organization edpopcol:suggestedProperty as:name , as:url .
+
+# APPLICATIONS
+
+as:Application edpopcol:suggestedProperty as:name , as:url .
+
+# ATTRIBUTION
+
+edpopcol:creator    rdfs:subPropertyOf dcterms:creator ;
+                    rdfs:range edpopcol:User ;
+                    rdfs:label "creator" ;
+                    rdfs:comment "User who made this contribution"@en .
+
+# PROJECTS
+
+edpopcol:Project    a rdfs:Class ;
+                    rdfs:label "Project"@en ;
+                    rdfs:comment "An endeavour shared between one or more users"@en .
+
+edpopcol:Project edpopcol:suggestedProperty as:name ,
+                                            as:summary ,
+                                            as:url .
+
+# COLLECTIONS
+
+edpopcol:Collection a rdfs:Class ;
+                    rdfs:subClassOf rdf:Bag ,
+                                    as:Collection ;
+                    rdfs:label "Collection"@en ;
+                    rdfs:comment "Collections are unordered sets of resources, assembled by users."@en .
+
+edpopcol:Collection edpopcol:suggestedProperty  as:name,
+                                                as:summary ,
+                                                edpopcol:creator ;
+                                                as:context .
+
+edpopcol:Collection rdfs:subClassOf _:ContextIsAProject .
+
+_:ContextIsAProject a owl:Restriction ;
+                    owl:onProperty as:context ;
+                    owl:allValuesFrom edpopcol:Project .
+
+# ANNOTATIONS
+
+# Annotations are comments and corrections on resources.
+
+edpopcol:Annotation a rdfs:Class ;
+                    rdfs:subClassOf oa:Annotation ;
+                    rdfs:label "Annotation"@en ;
+                    rdfs:comment "Annotations are comments and corrections on resources"@en .
+
+edpopcol:Annotation edpopcol:suggestedProperty  oa:hasTarget ,
+                                                oa:hasBody ,
+                                                oa:motivatedBy ,
+                                                edpopcol:creator ,
+                                                as:generator ,
+                                                as:context ,
+                                                as:inReplyTo .
+
+# subset of oa:Motivation that is implemented in EDPOP.
+# May be expanded in the future.
+edpopcol:ImplementedMotivation owl:oneOf (
+    oa:commenting
+    oa:editing
+    oa:identifying
+) .
+
+# Annotations must have implemented motivations
+edpopcol:Annotation rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty oa:motivatedBy ;
+    owl:allValuesFrom edpocol:ImplementedMotivation
+] .
+
+# The context of an annotation is always a project
+edpopcol:Annotation rdfs:subClassOf _:ContextIsAProject .
+
+# PREDICATE DESCRIPTORS
+# use to make annotations on the properties of subjects
+
+edpopcol:Predicate  a rdfs:Class ;
+                    rdfs:label "Predicate"@en ;
+                    rdfs:comment "A description of a predicate"@en.
+
+edpopcol:property   a rdf:Property ;
+                    rdfs:domain edpopcol:Predicate ;
+                    rdfs:range rdf:Property ;
+                    rdfs:label "property"@en ;
+                    rdfs:comment "The property of the predicate"@en .
+
+edpopcol:object     a rdf:Property ;
+                    rdfs:domain edpopcol:Predicate ;
+                    rdfs:label "object"@en ;
+                    rdfs:comment "The object of the predicate"@en .
+
+# ANNOTATION SOURCES
+
+edpopcol:PredicateSelector  rdfs:subClassOf oa:Selector ;
+                            rdfs:subClassOf edpopcol:Predicate ;
+                            rdfs:label "Predicate Selector"@en ;
+                            rdfs:comment "Selects a predicate on a resource to annotate."@en .
+
+# ANNOTATION BODIES
+
+edpopcol:AnnotationBody a rdfs:Class ;
+                        rdfs:label "Annotation Body"@en ;
+                        rdfs:comment "The body of annotations"@en.
+
+edpopcol:Annotation rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty oa:hasBody ;
+    owl:allValuesFrom edpopcol:AnnotationBody
+] .
+
+edpopcol:suggestsAddition   a rdf:Property ;
+                            rdfs:domain edpopcol:AnnotationBody ;
+                            rdfs:domain edpopcol:Predicate ;
+                            rdfs:label "suggests addition"@en ;
+                            rdfs:comment "A suggestion to add a predicate to the annotation subject"@en .
+
+edpopcol:suggestsRemoval   a rdf:Property ;
+                            rdfs:domain edpopcol:AnnotationBody ;
+                            rdfs:domain edpopcol:Predicate ;
+                            rdfs:label "suggests removal"@en ;
+                            rdfs:comment "A suggestion to remove a predicate from an annotation subject"@en .
+
+edpopcol:comment    a rdf:property ;
+                    rdfs:domain edpopcol:AnnotationBody ;
+                    rdfs:range oa:TextualBody ;
+                    rdfs:label "comment"@en ;
+                    rdfs:comment "A textual comment about the annotation subject"@en .
