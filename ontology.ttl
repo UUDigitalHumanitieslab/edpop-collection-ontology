@@ -58,17 +58,34 @@ edpopcol:creator    rdfs:subPropertyOf dcterms:creator ;
                     rdfs:label "creator" ;
                     rdfs:comment "User who made this contribution"@en .
 
+# PROJECTS
+
+edpopcol:Project    a rdfs:Class ;
+                    rdfs:label "Project"@en ;
+                    rdfs:comment "An endeavour shared between one or more users"@en .
+
+edpopcol:Project edpopcol:suggestedProperty as:name ,
+                                            as:summary ,
+                                            as:url .
+
 # COLLECTIONS
 
 edpopcol:Collection a rdfs:Class ;
                     rdfs:subClassOf rdf:Bag ,
                                     as:Collection ;
                     rdfs:label "Collection"@en ;
-                    rdfs:comment "Collections are unordered sets of resources, assembled by users. They also function as a context in which annotations are made."@en .
+                    rdfs:comment "Collections are unordered sets of resources, assembled by users."@en .
 
 edpopcol:Collection edpopcol:suggestedProperty  as:name,
                                                 as:summary ,
-                                                edpopcol:creator .
+                                                edpopcol:creator ;
+                                                as:context .
+
+edpopcol:Collection rdfs:subClassOf _:ContextIsAProject .
+
+_:ContextIsAProject a owl:Restriction ;
+                    owl:onProperty as:context ;
+                    owl:allValuesFrom edpopcol:Project .
 
 # ANNOTATIONS
 
@@ -102,12 +119,8 @@ edpopcol:Annotation rdfs:subClassOf [
     owl:allValuesFrom _:ImplementedMotivation
 ] .
 
-# The context of an annotation is always a collection
-edpopcol:Annotation rdfs:subClassOf [
-    a owl:Restriction ;
-    owl:onProperty as:context ;
-    owl:allValuesFrom edpopcol:Collection
-] .
+# The context of an annotation is always a project
+edpopcol:Annotation rdfs:subClassOf _:ContextIsAProject .
 
 # PREDICATE DESCRIPTORS
 # use to make annotations on the properties of subjects

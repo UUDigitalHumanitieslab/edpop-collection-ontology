@@ -13,7 +13,7 @@ We can formulate several requirements for use in research:
 
 This last point may be surprising: researchers do not need to build towards a shared, singular source of truth. As a project, EDPOP is not an attempt to construct a singular RDF dataset, but rather a means for researchers from different projects to present their work.
 
-- The abstraction and discretisation of data that graphs require consists of many non-trivial choices; what choices are appropriate often depends on the theoretical framework the researcher is working in, and the aims of their research project. When two researchers produce contradicting graphs, they may sometimes be understood not as disagreement, but as reliance on different models.
+- The abstraction and discretisation of data that graphs require consists of many non-trivial choices; what choices are appropriate often depends on the theoretical framework the researcher is working in, and the aims of their research project. When two researchers produce contradicting graphs, this may sometimes be understood not as disagreement, but as reliance on different models.
 - In cases where researchers truly disagree, they must each be able to express their viewpoint; this can include a personal "container" where the researcher can work out exactly how they would encode the data.
 
 
@@ -25,7 +25,7 @@ For the sake of attribution, we distinguish between two types of agents: users a
 
 In an application, it makes sense to let user nodes correspond one-to-one with users in an authentication system. In that case, the user nodes function as the "public" face of the user; this is the way their contributions are attributed.
 
-User nodes can have properties that describes the individual and their work. These should be defined by user themself.
+User nodes can have properties that describe the individual and their work. These should be defined by user themself.
 
 A user may have no informative properties at all. This allows users to make pseudonymous contributions, where there is still a clear record of all contributions by that user.
 
@@ -36,6 +36,16 @@ An application node represents a software application that makes contributions t
 Any user-created resource can also have an application as its `as:generator` - this just states that the application was used to make the contribution. That information can be somewhat useful when the graph is shared, as applications often restrict the created resource.
 
 Automatically generated resources, e.g. automatic annotations, can be realised as annotations not attributed to users; such annotions should have an `as:generator` to describe their provenance.
+
+## Projects
+
+Projects can be used to identify the context of collections and annotations. A project describes a shared endeavour between users - something to which collections and annotations contribute.
+
+It is recommended that projects come with names and descriptions, so they provide some background to researchers that list the project as their context.
+
+It is conceivable that an annotation or collection may exist in the context multiple projects, if it is relevant to all of them.
+
+In most cases, projects are the most suitable level to organise read access to collections and annotations - if the graph should not be fully public.
 
 ## Collections
 
@@ -269,24 +279,22 @@ Nonetheless, there is a balance between annotations and modifications that must 
 
 ### Annotation context
 
-Annotations will usually have an `as:context` that indicates the collection in which this annotation is relevant. It is possible for an annotation to have multiple collections as context: this indicates that the collections is also deemed to be relevant in other collections.
+Annotations will usually have an `as:context` that indicates the project(s) for which this annotation is relevant.
 
-It can be useful to also know the *original* context in which the annotation was made. The recommend way to include this information is add record of the original creation event, such as an `as:Create` node, which specifies the context.
+It is possible for annotations to exists in multiple projects - e.g. by being imported or transferred. If this is implemented, it can be useful to also know the *original* context in which the annotation was made. The recommend way to include this information is add record of the original creation event, such as an `as:Create` node, which specifies the context.
 
 ```ttl
-_:col a edpopcol:Collection .
-_:col2 a edpopcol:Collection .
+_:proj1 a edpopcol:Project .
+_:proj2 a edpopcol:Project .
 
 _:ann   a edpopcol:Annotation ;
-        as:context _:col , _:col2 .
+        as:context _:proj1, _:proj2 .
 
 []  a as:Create ;
-    as:context _:col .
+    as:context _:proj .
 ```
 
-It is sometimes useful to make context-independent annotations that are always relevant in an research environment. The recommended way to handle this is to create a "universal collection" for the environment: an instance of `edpopcol:Collection` which is understood to be "relevant" or "active" regardless of context.
-
-(A universal collection may exist without an `edpopcol:creator` - in fact, it may be the only collection without one. However, it is conceivable that a collection is considered universal while still having a creator, e.g. an admin).
+It is sometimes useful to make context-independent annotations that are always relevant in an research environment. The recommended way to handle this is to create a "universal project" for the environment: an instance of `edpopcol:Project`. This project may be given special status depending on the interface, such as having universal read access or always having "active" status.
 
 ### Replying to annotations
 

@@ -28,6 +28,12 @@ _:org   a as:Organization ;
         as:name "University of Examples" ;
         as:url "http://www.university-of-examples.org" .
 
+# PROJECTS
+
+_:project   a edpopcol:Project ;
+            as:name "Shakespeare research" ;
+            as:summary "Discussions about Shakespeare's plays" .
+
 # APPLICATIONS
 
 _:app   a as:Application ;
@@ -38,6 +44,7 @@ _:app   a as:Application ;
 
 _:col1  a edpopcol:Collection ;
         as:attributedTo _:user1 ;
+        as:context _:project ;
         as:name "Characters in Hamlet" .
 
 # TOY DATA
@@ -89,14 +96,14 @@ _:a1  a edpopcol:Annotation ;
 []  a as:Create ;
     as:actor _:user1 ;
     as:object _:a1 ;
-    as:context _:col1 .
+    as:context _:project .
 
 # A correction to add a triple
 _:a2  a edpopcol:Annotation ;
     dcterms:creator _:user1 ;
     as:published  "2023-01-01:00:01-00:00" ;
     as:generator _:app ;
-    as:context _:col1 ;
+    as:context _:project ;
     oa:motivatedBy oa:editing ;
     oa:hasTarget [
         oa:hasSource _:Claudius
@@ -117,14 +124,14 @@ _:a2  a edpopcol:Annotation ;
 []  a as:Create ;
     as:actor _:user1 ;
     as:object _:a2 ;
-    as:context _:col1 .
+    as:context _:project .
 
 # A correction to remove two triples
 _:a3  a edpopcol:Annotation ;
     dcterms:creator _:user1 ;
     as:published  "2023-01-01:00:02-00:00" ;
     as:generator _:app ;
-    as:context _:col1 ;
+    as:context _:project ;
     oa:motivatedBy oa:editing ;
     oa:hasTarget [
         oa:hasSource _:Hamlet
@@ -149,14 +156,14 @@ _:a3  a edpopcol:Annotation ;
 []  a as:Create ;
     as:actor _:user1 ;
     as:object _:a3 ;
-    as:context _:col1 .
+    as:context _:project .
 
 # A correction to replace the object of a triple
 _:a4  a edpopcol:Annotation ;
     dcterms:creator _:user1 ;
     as:published  "2023-01-01:00:03-00:00" ;
     as:generator _:app ;
-    as:context _:col1 ;
+    as:context _:project ;
     oa:motivatedBy oa:editing ;
     oa:hasTarget [
         oa:hasSource _:Hamlet
@@ -181,14 +188,14 @@ _:a4  a edpopcol:Annotation ;
 []  a as:Create ;
     as:actor _:user1 ;
     as:object _:a4 ;
-    as:context _:col1 .
+    as:context _:project .
 
 # A suggestion that two resource are the same.
 _:a5  a edpopcol:Annotation ;
     dcterms:creator _:user1 ;
     as:published "2023-01-01:00:05-00:00" ;
     as:generator _:app ;
-    as:context _:col1 ;
+    as:context _:project ;
     oa:motivatedBy oa:identifying ;
     oa:hasTarget [
         oa:hasSource _:Ghost
@@ -203,4 +210,4 @@ _:a5  a edpopcol:Annotation ;
 []  a as:Create ;
     as:actor _:user1 ;
     as:object _:a4 ;
-    as:context _:col1 .
+    as:context _:project .
